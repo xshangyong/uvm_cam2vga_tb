@@ -39,8 +39,15 @@ class cmos_trans extends uvm_sequence_item;
   function new (string name = "cmos_trans_inst");
     super.new(name);
   endfunction : new
+ 
+	virtual task void set_zero(cmos_trans cmos_img);
+	endclass : cmos_trans
 
-endclass : cmos_trans
 
+	void cmos_trans::set_zero(cmos_trans cmos_img); begin
+		cmos_img.data = new[0];
+		
+	end
+end
 `endif	//CMOS_TRANS
 
