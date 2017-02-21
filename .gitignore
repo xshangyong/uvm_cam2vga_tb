@@ -1,6 +1,11 @@
 core/ 
-csrc/ 
+csrc/
+DVEfiles/ 
 simv* 
+.inter.vpd.uvm
+.restartSimSession.tcl.old
+.synopsys_dve_rebuild.tcl
+inter.vpd
 vc_hdrs.h 
 ucli.key 
 urg* 
