@@ -931,7 +931,7 @@ module sdram(Dq, Addr, Ba, Clk, Cke, Cs_n, Ras_n, Cas_n, We_n, Dqm);
                     2'b11 : Bank3 [{Row, Col}] = Dq;
 				endcase
 				if(Col<=10 && Row==0) begin
-					$display("Row=%d,Col=%d,Dq=%h bank=%d",Row,Col,Dq,Bank);
+//					$display("Row=%d,Col=%d,Dq=%h bank=%d",Row,Col,Dq,Bank);
 				end
                 
 

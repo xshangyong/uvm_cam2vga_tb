@@ -1,6 +1,6 @@
 
 
-all: comp run
+all: comp
 
 
 TEST_CASE = $(CASE)
@@ -15,10 +15,10 @@ VCS =	vcs -full64 -sverilog -timescale=1ns/1ns \
 			+incdir+.+./tb+$(UVM_HOME)/src \
 			$(UVM_HOME)/src/uvm.sv \
 			$(UVM_HOME)/src/dpi/uvm_dpi.cc \
-			 -debug_all \
+#			 -debug_all \
 	
 
-SIMV = 	./simv +UVM_VERBOSITY=$(UVM_VERBOSITY) -l vcs.log +UVM_TESTNAME=$(TEST_CASE) $(GUI)
+SIMV = 	./simv +UVM_VERBOSITY=$(UVM_VERBOSITY) -l vcs.log +UVM_TESTNAME=$(TEST_CASE)
 
 URG  = urg -format text -dir simv.vdb
 

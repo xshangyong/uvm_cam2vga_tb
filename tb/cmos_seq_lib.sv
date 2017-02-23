@@ -41,7 +41,7 @@ class send_one_seq extends cmos_base_sequence;
   rand int unsigned transmit_del = 0;	
   constraint transmit_del_ct { (transmit_del <= 10); }
 
-	virtual task body();
+	virtual task body();	
 		#5ms
 		repeat(4) begin
 			`uvm_do_with(req, 

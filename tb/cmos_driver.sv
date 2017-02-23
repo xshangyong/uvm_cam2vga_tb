@@ -24,7 +24,14 @@ class cmos_driver extends uvm_driver # (cmos_trans);
 	endtask : run_phase
 
 	virtual protected task get_and_drive();
-			vif_cmos.cmos_pclk <= 1;
+			vif_cmos.cmos_pclk <= 0;
+			vif_cmos.cmos_href <= 0;
+			vif_cmos.cmos_vsyn <= 0;
+			vif_cmos.cmos_data <= 0;
+			
+			
+			
+			
 		fork		
 			while(1)begin
 				#19.75ns;

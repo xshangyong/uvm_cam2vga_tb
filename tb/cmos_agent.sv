@@ -2,6 +2,7 @@
 `define CMOS_AGENT__SV
 
 `include "cmos_driver.sv"
+`include "cmos_monitor.sv"
 `include "cmos_sequencer.sv"
 
 class cmos_agent extends uvm_agent;
@@ -11,7 +12,7 @@ class cmos_agent extends uvm_agent;
 	protected int master_id;
 
 	cmos_driver 	driver;
-//	cmos_monitor 	monitor;
+	cmos_monitor 	monitor;
 	cmos_sequencer	sequencer;
 
 	function new (string name, uvm_component parent);
@@ -20,7 +21,7 @@ class cmos_agent extends uvm_agent;
 
 	function void build_phase(uvm_phase phase);
 		super.build_phase(phase);
-//		monitor = cmos_monitor::type_id::create("monitor", this);
+		monitor = cmos_monitor::type_id::create("monitor", this);
 
 		if(get_is_active() == UVM_ACTIVE) begin
 			sequencer = cmos_sequencer::type_id::create("sequencer", this);
