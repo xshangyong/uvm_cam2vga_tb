@@ -10,6 +10,8 @@ class cmos_monitor extends uvm_monitor;
 	int 		cnt_column=0;
 	int 		cnt_row=0;
 	int 		frame_cnt=0;
+	bit [15:0]	data_tmp[$];
+	int			size;
 	typedef enum   {INIT=0, VSYN_H, VSYN_L_RL, VSYN_L_RH} cmos_state;
 	cmos_state c_state = INIT;
 	protected virtual cmos_interface vif_cmos;
@@ -68,11 +70,29 @@ class cmos_monitor extends uvm_monitor;
 				else if(vif_cmos.cmos_vsyn == 0 && vif_cmos.cmos_href == 1) begin
 					c_state <= VSYN_L_RH;
 					cnt_column <= 0;
+					if(odd==0) begin
+						temp_data[7:0] <= vif_cmos.cmos_data[7:0];
+						odd <= 1;
+					end
+					else begin
+						odd <= 0;
+						data_tmp.push_back({temp_data[7:0],vif_cmos.cmos_data[7:0]}) ;
+						idx <= idx + 1;
+					end
 				end
 				else if(vif_cmos.cmos_vsyn == 1)begin
 					c_state <= VSYN_H;
 					cnt_row <= 0;
+					idx <= 0;
 					trans_collected.row_size <= cnt_row;
+					begin
+						size = data_tmp.size();
+						trans_collected.data = new[size];
+						for(int i=0;i<size;i++) begin
+							trans_collected.data[i] = data_tmp.pop_front();
+						end
+					end
+					`uvm_info("monitor",$sformatf("END OF L L , size = %d",size), UVM_LOW); 
 				end
 			end
 			VSYN_L_RH: begin
@@ -85,7 +105,8 @@ class cmos_monitor extends uvm_monitor;
 					end
 					else begin
 						odd <= 0;
-						trans_collected.data[idx] <= {temp_data[7:0],vif_cmos.cmos_data[7:0]};
+						data_tmp.push_back({temp_data[7:0],vif_cmos.cmos_data[7:0]}) ;
+						idx <= idx + 1;
 					end
 				end
 				else if(vif_cmos.cmos_vsyn == 0 && vif_cmos.cmos_href == 0) begin
@@ -93,7 +114,7 @@ class cmos_monitor extends uvm_monitor;
 					cnt_column <= 0;
 					cnt_row <= cnt_row + 1;
 					trans_collected.column_ar.push_back(cnt_column);
-					`uvm_info("monitor", "END ONE HREF", UVM_LOW);
+					`uvm_info("monitor",$sformatf("END, REF, size = %d",data_tmp.size()), UVM_LOW);
 				end
 			end
 		endcase

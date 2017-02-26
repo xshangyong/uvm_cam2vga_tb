@@ -35,7 +35,7 @@ module top_tb;
 						"vif_vga", vif_vga);
 		uvm_config_db#(virtual cmos_interface)::set(uvm_root::get(), "*", 
 						"vif_cmos", vif_cmos);
-		run_test();
+		run_test("test_ten_frame");
 	end
 
 

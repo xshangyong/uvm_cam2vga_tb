@@ -3,12 +3,19 @@
 all: comp
 
 
-TEST_CASE = $(CASE)
 UVM_VERBOSITY =	UVM_LOW
 N_ERRS = 0
 N_FATALS = 0
 
 UVM_HOME	= ../uvm
+
+TEST_NAME = "+UVM_TESTNAME="
+ifneq ($(CASE),)
+	TEST_CASE = $(TEST_NAME)$(CASE) 
+endif
+
+
+
 VCS =	vcs -full64 -sverilog -timescale=1ns/1ns \
 			-CFLAGS -DVCS +acc +vpi  \
 			+define+UVM_OBJECT_MUST_HAVE_CONSTRUCTOR \
@@ -18,7 +25,7 @@ VCS =	vcs -full64 -sverilog -timescale=1ns/1ns \
 #			 -debug_all \
 	
 
-SIMV = 	./simv +UVM_VERBOSITY=$(UVM_VERBOSITY) -l vcs.log +UVM_TESTNAME=$(TEST_CASE)
+SIMV = 	./simv +UVM_VERBOSITY=$(UVM_VERBOSITY) -l vcs.log $(TEST_CASE)
 
 URG  = urg -format text -dir simv.vdb
 
@@ -32,7 +39,7 @@ comp:
 run:
 	$(SIMV)
 	$(CHECK)
-	
+
 	
 clean:
 	rm -rf *~ core csrc simv* vc_hdrs.h ucli.key urg* *.log
