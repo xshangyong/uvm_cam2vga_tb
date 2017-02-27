@@ -50,9 +50,9 @@ class cmos_monitor extends uvm_monitor;
 			end
 			VSYN_H: begin
 				if(trans_collected.data.size() != 0) begin
-					trans_collected.set_zero();
-					item_collected_port.write(trans_collected);
 					trans_collected.print();
+					item_collected_port.write(trans_collected);
+					trans_collected.set_zero();
 					`uvm_info("monitor", "END ONE FRAME", UVM_LOW);
 				end
 				if(vif_cmos.cmos_vsyn == 1) begin
@@ -66,10 +66,11 @@ class cmos_monitor extends uvm_monitor;
 			VSYN_L_RL: begin
 				if(vif_cmos.cmos_vsyn == 0 && vif_cmos.cmos_href == 0) begin
 					c_state <= VSYN_L_RL;
+					cnt_column <= 0;
 				end
 				else if(vif_cmos.cmos_vsyn == 0 && vif_cmos.cmos_href == 1) begin
 					c_state <= VSYN_L_RH;
-					cnt_column <= 0;
+					cnt_column <= cnt_column + 1;
 					if(odd==0) begin
 						temp_data[7:0] <= vif_cmos.cmos_data[7:0];
 						odd <= 1;
@@ -86,9 +87,9 @@ class cmos_monitor extends uvm_monitor;
 					idx <= 0;
 					trans_collected.row_size <= cnt_row;
 					begin
-						size = data_tmp.size();
-						trans_collected.data = new[size];
-						for(int i=0;i<size;i++) begin
+						trans_collected.size = data_tmp.size();
+						trans_collected.data = new[trans_collected.size];
+						for(int i=0;i<trans_collected.size;i++) begin
 							trans_collected.data[i] = data_tmp.pop_front();
 						end
 					end
@@ -114,6 +115,7 @@ class cmos_monitor extends uvm_monitor;
 					cnt_column <= 0;
 					cnt_row <= cnt_row + 1;
 					trans_collected.column_ar.push_back(cnt_column);
+					trans_collected.column_size <= cnt_column;
 					`uvm_info("monitor",$sformatf("END, REF, size = %d",data_tmp.size()), UVM_LOW);
 				end
 			end

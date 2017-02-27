@@ -28,10 +28,6 @@ class cmos_driver extends uvm_driver # (cmos_trans);
 			vif_cmos.cmos_href <= 0;
 			vif_cmos.cmos_vsyn <= 0;
 			vif_cmos.cmos_data <= 0;
-			
-			
-			
-			
 		fork		
 			while(1)begin
 				#19.75ns;

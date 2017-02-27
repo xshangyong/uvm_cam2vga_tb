@@ -30,6 +30,8 @@ class cmos_trans extends uvm_sequence_item;
 	`uvm_object_utils_begin(cmos_trans)
 //		`uvm_field_array_int(data, UVM_DEFAULT)
 //		`uvm_field_array_int(column_ar, UVM_DEFAULT)
+		`uvm_field_int(size, UVM_DEFAULT)
+		`uvm_field_int(column_size, UVM_DEFAULT)
 		`uvm_field_int(row_size, UVM_DEFAULT)
 	`uvm_object_utils_end
 
@@ -44,6 +46,21 @@ class cmos_trans extends uvm_sequence_item;
 		this.bank_size = 0;
 		this.data = new[0];
 	endfunction
+		
+	extern function bit compare_data(cmos_trans tr);
 endclass
+
+function bit cmos_trans::compare_data(cmos_trans tr);
+	bit res = 1;
+	if(tr == null) begin
+		`uvm_fatal("cmos_trans", "tr is null");
+	end
+	for(int i=0;i<tr.data.size();i++)begin
+		if(data[i] != tr.data[i]) begin
+			res = 0;
+		end
+	end
+	return res;
+endfunction
 `endif	//CMOS_TRANS
 

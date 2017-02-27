@@ -14,7 +14,13 @@ ifneq ($(CASE),)
 	TEST_CASE = $(TEST_NAME)$(CASE) 
 endif
 
+ifeq ($(DB), "yes")
+	DEBUG = -debug_all
+endif
 
+ifeq ($(GUI), "yes")
+	GUI = -gui
+endif
 
 VCS =	vcs -full64 -sverilog -timescale=1ns/1ns \
 			-CFLAGS -DVCS +acc +vpi  \
@@ -22,10 +28,10 @@ VCS =	vcs -full64 -sverilog -timescale=1ns/1ns \
 			+incdir+.+./tb+$(UVM_HOME)/src \
 			$(UVM_HOME)/src/uvm.sv \
 			$(UVM_HOME)/src/dpi/uvm_dpi.cc \
-#			 -debug_all \
+			$(DEBUG)
 	
 
-SIMV = 	./simv +UVM_VERBOSITY=$(UVM_VERBOSITY) -l vcs.log $(TEST_CASE)
+SIMV = 	./simv +UVM_VERBOSITY=$(UVM_VERBOSITY) -l vcs.log $(TEST_CASE) $(GUI)
 
 URG  = urg -format text -dir simv.vdb
 
