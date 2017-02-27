@@ -14,12 +14,12 @@ ifneq ($(CASE),)
 	TEST_CASE = $(TEST_NAME)$(CASE) 
 endif
 
-ifeq ($(DB), "yes")
+ifeq ($(DB),yes)
 	DEBUG = -debug_all
 endif
 
-ifeq ($(GUI), "yes")
-	GUI = -gui
+ifeq ($(GUI),yes)
+	GUI1 = -gui
 endif
 
 VCS =	vcs -full64 -sverilog -timescale=1ns/1ns \
@@ -31,7 +31,7 @@ VCS =	vcs -full64 -sverilog -timescale=1ns/1ns \
 			$(DEBUG)
 	
 
-SIMV = 	./simv +UVM_VERBOSITY=$(UVM_VERBOSITY) -l vcs.log $(TEST_CASE) $(GUI)
+SIMV = 	./simv +UVM_VERBOSITY=$(UVM_VERBOSITY) -l vcs.log $(TEST_CASE) $(GUI1)
 
 URG  = urg -format text -dir simv.vdb
 

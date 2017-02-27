@@ -296,7 +296,7 @@ module vga_module
 	wire cam_more_200;
 	assign cam_less_200 = (cnt_vsyn < 100) ? 1 : 0;
 	assign cam_vsyn_200 = (cnt_vsyn == 100) ? 1 : 0;
-	assign cam_more_200 = (cnt_vsyn > 1) ? 1 : 0;
+	assign cam_more_200 = (cnt_vsyn > 2) ? 1 : 0;
 
 	wire cnt_ref_480;
 	assign cnt_ref_480 = cnt_ref == 16 ? 1 : 0;

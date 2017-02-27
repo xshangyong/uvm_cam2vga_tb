@@ -43,7 +43,7 @@ class send_one_seq extends cmos_base_sequence;
 
 	virtual task body();	
 		#5ms
-		repeat(2) begin
+		repeat(3) begin
 			`uvm_do_with(req, 
 				{req.size == 12800;
 				req.column_size == 800;

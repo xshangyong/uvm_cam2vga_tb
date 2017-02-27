@@ -79,7 +79,7 @@ module top_tb;
 		.cmos_pclk	(vif_cmos.cmos_pclk	),
 		.cmos_xclk	(vif_cmos.cmos_xclk	),
 		.cmos_data	(vif_cmos.cmos_data	),
-		.clk_100M	(			),
+		.clk_100M	(vif_vga.vga_clk	),
 		.sram_data	(			), 
 		.sram_addr	(			),
 		.sram_cs	(			), 
